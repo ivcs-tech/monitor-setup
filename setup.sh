@@ -33,6 +33,8 @@ import datetime
 import socket
 import requests
 import os
+import time
+import random
 
 API_URL = "https://ivcs-tech.xyz/services/machine-status/$MACHINE_ID"
 API_KEY = "$API_KEY"
@@ -84,11 +86,28 @@ def collect_system_metrics():
 def send_metrics_to_api(metrics):
     headers = {
         'Content-Type': 'application/json',
-        'Authorization': f'{API_KEY}'
+        'Authorization': f'{API_KEY}',
+        'User-Agent': f'MonitoringScript/{MACHINE_ID}',
+        'X-Request-From': MACHINE_ID,
+        'Accept': 'application/json',
+        'Connection': 'keep-alive',
+        'Cache-Control': 'no-cache'
     }
     
     try:
+        # Adicionar um pequeno atraso aleatório para evitar requisições simultâneas
+        time.sleep(random.uniform(0, 2))
+        
         response = requests.post(API_URL, json=metrics, headers=headers, timeout=10)
+        
+        # Verificar se recebemos código 429 (Too Many Requests)
+        if response.status_code == 429:
+            # Esperar o tempo sugerido pelo header Retry-After ou 60 segundos por padrão
+            retry_after = int(response.headers.get('Retry-After', 60))
+            time.sleep(retry_after)
+            # Tentar novamente a requisição
+            response = requests.post(API_URL, json=metrics, headers=headers, timeout=10)
+            
         response.raise_for_status()
         return True
     except requests.exceptions.RequestException as e:
