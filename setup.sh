@@ -37,7 +37,7 @@ import time
 import random
 import uuid
 
-API_URL = "https://ivcs-tech.xyz/services/machine-status/$MACHINE_ID"
+API_URL = "http://44.201.198.38/services/machine-status/$MACHINE_ID"
 API_KEY = "$API_KEY"
 
 def collect_system_metrics():
