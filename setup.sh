@@ -37,7 +37,7 @@ import time
 import random
 import uuid
 
-API_URL = "http://44.201.198.38:80/services/machine-status/$MACHINE_ID"
+API_URL = "https://ivcs-tech.xyz/services/machine-status/$MACHINE_ID"
 API_KEY = "$API_KEY"
 
 def collect_system_metrics():
@@ -99,7 +99,7 @@ def send_metrics_to_api(metrics):
         # Adicionar um pequeno atraso aleatório para evitar requisições simultâneas
         time.sleep(random.uniform(0, 2))
         print("Enviando métricas para API:", metrics)
-        response = requests.post(API_URL, json=metrics, headers=headers, timeout=10,  allow_redirects=False, verify=False)
+        response = requests.post(API_URL, json=metrics, headers=headers, timeout=10,  allow_redirects=True, verify=False)
         
         # Verificar se recebemos código 429 (Too Many Requests)
         if response.status_code == 429:
