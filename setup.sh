@@ -109,7 +109,8 @@ def send_metrics_to_api(metrics):
             # Tentar novamente a requisição
             response = requests.post(API_URL, json=metrics, headers=headers, timeout=10)
             
-        response.raise_for_status()
+        if response.status_code != 200:
+            raise Exception(f"Erro ao enviar métricas para API: {response.status_code} - {response.text}")
         return True
     except requests.exceptions.RequestException as e:
         raise Exception(f"Erro ao enviar métricas para API: {str(e)}")
