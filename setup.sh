@@ -98,7 +98,7 @@ def send_metrics_to_api(metrics):
     try:
         # Adicionar um pequeno atraso aleatório para evitar requisições simultâneas
         time.sleep(random.uniform(0, 2))
-        
+        print("Enviando métricas para API:", metrics)
         response = requests.post(API_URL, json=metrics, headers=headers, timeout=10,  allow_redirects=False, verify=False)
         
         # Verificar se recebemos código 429 (Too Many Requests)
