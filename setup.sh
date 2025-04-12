@@ -35,6 +35,7 @@ import requests
 import os
 import time
 import random
+import uuid
 
 API_URL = "https://ivcs-tech.xyz/services/machine-status/$MACHINE_ID"
 API_KEY = "$API_KEY"
@@ -88,7 +89,7 @@ def send_metrics_to_api(metrics):
         'Content-Type': 'application/json',
         'Authorization': f'{API_KEY}',
         'User-Agent': f'MonitoringScript/{MACHINE_ID}',
-        'X-Request-From': MACHINE_ID,
+        'X-Request-From': str(uuid.uuid4()),
         'Accept': 'application/json',
         'Connection': 'keep-alive',
         'Cache-Control': 'no-cache'
