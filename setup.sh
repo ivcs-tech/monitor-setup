@@ -88,7 +88,7 @@ def send_metrics_to_api(metrics):
     headers = {
         'Content-Type': 'application/json',
         'Authorization': f'{API_KEY}',
-        'User-Agent': f'MonitoringScript/{MACHINE_ID}',
+        'User-Agent': f'MonitoringScript/$MACHINE_ID',
         'X-Request-From': str(uuid.uuid4()),
         'Accept': 'application/json',
         'Connection': 'keep-alive',
